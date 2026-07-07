@@ -19,15 +19,18 @@ import {
 } from "lucide-react";
 import logoLockup from "./assets/logo-lockup.png";
 import logoMark from "./assets/logo-mark.png";
+import f1Pitstop from "./assets/f1-pitstop.png";
+import f1CarGame from "./assets/f1-car-game.png";
+import mechanicSprite from "./assets/mechanic.png";
 
 /* =========================================================
    GAME: Pitstoppet
    ========================================================= */
 const WHEELS = [
-  { id: "fl", label: "FRAM VÄNSTER", left: "25%", top: "23%" },
-  { id: "fr", label: "FRAM HÖGER", left: "75%", top: "23%" },
-  { id: "rl", label: "BAK VÄNSTER", left: "25%", top: "77%" },
-  { id: "rr", label: "BAK HÖGER", left: "75%", top: "77%" },
+  { id: "fl", label: "FRAM VÄNSTER", left: "20.0%", top: "18.1%" },
+  { id: "fr", label: "FRAM HÖGER", left: "20.4%", top: "85.6%" },
+  { id: "rl", label: "BAK VÄNSTER", left: "81.1%", top: "16.4%" },
+  { id: "rr", label: "BAK HÖGER", left: "81.3%", top: "85.4%" },
 ];
 const NUTS_PER_PHASE = 5;
 const TOTAL_NUT_EVENTS = WHEELS.length * 2 * NUTS_PER_PHASE;
@@ -185,112 +188,42 @@ function TorqueMeter({ progressCount, onResult, active, label }) {
   );
 }
 
-function WheelIcon({ size = 44, tone }) {
-  // tone: 'pending' | 'active' | 'done'
-  const rim = tone === "done" ? "#3ddc84" : tone === "active" ? "#ffcc00" : "#4a5058";
-  return (
-    <svg width={size} height={size} viewBox="0 0 44 44">
-      <circle cx="22" cy="22" r="20" fill="#0d0f12" stroke="#050607" strokeWidth="2" />
-      <circle cx="22" cy="22" r="20" fill="none" stroke={rim} strokeWidth="1.4" opacity="0.5" />
-      <circle cx="22" cy="22" r="13" fill="#1a1d21" stroke={rim} strokeWidth="1.6" />
-      {[0, 72, 144, 216, 288].map((deg) => (
-        <rect
-          key={deg}
-          x="20.5"
-          y="11"
-          width="3"
-          height="9"
-          rx="1.4"
-          fill={rim}
-          opacity="0.85"
-          transform={`rotate(${deg} 22 22)`}
-        />
-      ))}
-      <circle cx="22" cy="22" r="4" fill={rim} />
-    </svg>
-  );
-}
-
 function CarDiagram({ activeIdx, wheelStatus, onWheelClick, phase }) {
+  const workingOnWheel = activeIdx >= 0 && (phase === "remove" || phase === "install");
+  const activeWheel = workingOnWheel ? WHEELS[activeIdx] : null;
+  // mechanic crouches just outside the car, mirrored depending on which side of the car it's on
+  const isLeftSide = activeWheel && parseFloat(activeWheel.left) < 50;
+  const isTopSide = activeWheel && parseFloat(activeWheel.top) < 50;
+
   return (
-    <div style={{ position: "relative", width: "100%", maxWidth: 320, aspectRatio: "400/220", margin: "0 auto" }}>
-      <svg viewBox="0 0 400 220" style={{ width: "100%", height: "100%", display: "block" }}>
-        <defs>
-          <linearGradient id="body2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#282c32" />
-            <stop offset="55%" stopColor="#16181c" />
-            <stop offset="100%" stopColor="#0c0d0f" />
-          </linearGradient>
-          <linearGradient id="glass2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2a3844" />
-            <stop offset="100%" stopColor="#0a0c0e" />
-          </linearGradient>
-        </defs>
+    <div style={{ position: "relative", width: "100%", maxWidth: 380, aspectRatio: "900/408", margin: "0 auto" }}>
+      <img
+        src={f1CarGame}
+        alt="Racerbil sedd ovanifrån"
+        style={{ width: "100%", height: "100%", display: "block", objectFit: "contain", filter: "drop-shadow(0 14px 24px rgba(0,0,0,.5))" }}
+      />
 
-        {/* shadow */}
-        <ellipse cx="200" cy="112" rx="175" ry="86" fill="#000" opacity="0.35" />
-
-        {/* body silhouette - top-down sports coupe */}
-        <path
-          d="M 22 110
-             C 22 90, 34 74, 55 66
-             C 78 45, 108 30, 145 26
-             C 168 23, 232 23, 255 26
-             C 292 30, 322 45, 345 66
-             C 366 74, 378 90, 378 110
-             C 378 130, 366 146, 345 154
-             C 322 175, 292 190, 255 194
-             C 232 197, 168 197, 145 194
-             C 108 190, 78 175, 55 154
-             C 34 146, 22 130, 22 110 Z"
-          fill="url(#body2)"
-          stroke="#3a3f47"
-          strokeWidth="2"
+      {activeWheel && (
+        <img
+          src={mechanicSprite}
+          alt=""
+          style={{
+            position: "absolute",
+            left: isLeftSide ? `calc(${activeWheel.left} - 13%)` : `calc(${activeWheel.left} + 13%)`,
+            top: isTopSide ? `calc(${activeWheel.top} - 6%)` : `calc(${activeWheel.top} + 6%)`,
+            transform: `translate(-50%,-50%) scaleX(${isLeftSide ? 1 : -1})`,
+            width: "20%",
+            height: "auto",
+            filter: "drop-shadow(0 4px 8px rgba(0,0,0,.5))",
+            pointerEvents: "none",
+          }}
         />
-
-        {/* windshield + roof */}
-        <path
-          d="M 152 44 C 158 38, 242 38, 248 44 C 256 56, 256 164, 248 176 C 242 182, 158 182, 152 176 C 144 164, 144 56, 152 44 Z"
-          fill="url(#glass2)"
-          stroke="#3a3f47"
-          strokeWidth="1.5"
-        />
-        {/* windshield divider lines (front/rear glass split) */}
-        <line x1="150" y1="70" x2="250" y2="70" stroke="#0c0d0f" strokeWidth="2" opacity="0.6" />
-        <line x1="150" y1="150" x2="250" y2="150" stroke="#0c0d0f" strokeWidth="2" opacity="0.6" />
-
-        {/* side mirrors */}
-        <rect x="118" y="60" width="14" height="7" rx="3" fill="#1a1d21" stroke="#3a3f47" strokeWidth="1" />
-        <rect x="118" y="153" width="14" height="7" rx="3" fill="#1a1d21" stroke="#3a3f47" strokeWidth="1" />
-
-        {/* racing stripe */}
-        <rect x="30" y="103" width="340" height="14" fill="#ffcc00" opacity="0.92" />
-        <rect x="30" y="103" width="340" height="4" fill="#1c3f7c" />
-        <rect x="30" y="113" width="340" height="4" fill="#1c3f7c" />
-
-        {/* rear spoiler */}
-        <rect x="360" y="70" width="7" height="80" rx="2" fill="#1a1d21" stroke="#3a3f47" strokeWidth="1" />
-
-        {/* fender arch hints at wheel positions */}
-        {WHEELS.map((w) => (
-          <ellipse
-            key={w.id}
-            cx={(parseFloat(w.left) / 100) * 400}
-            cy={(parseFloat(w.top) / 100) * 220}
-            rx="30"
-            ry="30"
-            fill="none"
-            stroke="#000"
-            strokeOpacity="0.35"
-            strokeWidth="10"
-          />
-        ))}
-      </svg>
+      )}
 
       {WHEELS.map((w, i) => {
         const status = wheelStatus[i];
         const isActive = i === activeIdx;
-        const tone = status === "done" ? "done" : isActive ? "active" : "pending";
+        const ring = status === "done" ? "#3ddc84" : isActive ? "#ffcc00" : "transparent";
         return (
           <button
             key={w.id}
@@ -301,24 +234,23 @@ function CarDiagram({ activeIdx, wheelStatus, onWheelClick, phase }) {
               left: w.left,
               top: w.top,
               transform: "translate(-50%,-50%)",
-              width: 48,
-              height: 48,
+              width: 46,
+              height: 46,
               padding: 0,
               borderRadius: "50%",
-              border: "none",
+              border: `3px solid ${ring}`,
               background: "transparent",
               cursor: status === "active" && phase === "idle" ? "pointer" : "default",
-              filter: isActive ? "drop-shadow(0 0 8px rgba(255,204,0,.75))" : "none",
+              boxShadow: isActive ? "0 0 12px rgba(255,204,0,.85)" : "none",
               animation: isActive && phase === "idle" ? "pulse 1.1s infinite" : "none",
             }}
             title={w.label}
           >
-            <WheelIcon tone={tone} />
             {status === "done" && (
               <CheckCircle2
                 size={16}
                 color="#3ddc84"
-                style={{ position: "absolute", top: -2, right: -2, background: "#0d0f12", borderRadius: "50%" }}
+                style={{ position: "absolute", top: -4, right: -4, background: "#0d0f12", borderRadius: "50%" }}
               />
             )}
           </button>
@@ -926,9 +858,9 @@ export default function App() {
             </div>
             <div className="hero-mark" style={{ display: "flex", justifyContent: "center" }}>
               <img
-                src={logoMark}
-                alt="N1 Nymans"
-                style={{ width: "68%", maxWidth: 260, filter: "drop-shadow(0 24px 40px rgba(0,0,0,.55))" }}
+                src={f1Pitstop}
+                alt="Pitstopp med Nymans Däck Team-utrustade mekaniker"
+                style={{ width: "100%", maxWidth: 440, filter: "drop-shadow(0 24px 40px rgba(0,0,0,.55))", borderRadius: 8 }}
               />
             </div>
           </div>
