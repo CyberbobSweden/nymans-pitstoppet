@@ -13,6 +13,9 @@ import {
   Users,
   Award,
   Warehouse,
+  Menu,
+  X,
+  MousePointerClick,
 } from "lucide-react";
 import logoLockup from "./assets/logo-lockup.png";
 import logoMark from "./assets/logo-mark.png";
@@ -182,24 +185,112 @@ function TorqueMeter({ progressCount, onResult, active, label }) {
   );
 }
 
+function WheelIcon({ size = 44, tone }) {
+  // tone: 'pending' | 'active' | 'done'
+  const rim = tone === "done" ? "#3ddc84" : tone === "active" ? "#ffcc00" : "#4a5058";
+  return (
+    <svg width={size} height={size} viewBox="0 0 44 44">
+      <circle cx="22" cy="22" r="20" fill="#0d0f12" stroke="#050607" strokeWidth="2" />
+      <circle cx="22" cy="22" r="20" fill="none" stroke={rim} strokeWidth="1.4" opacity="0.5" />
+      <circle cx="22" cy="22" r="13" fill="#1a1d21" stroke={rim} strokeWidth="1.6" />
+      {[0, 72, 144, 216, 288].map((deg) => (
+        <rect
+          key={deg}
+          x="20.5"
+          y="11"
+          width="3"
+          height="9"
+          rx="1.4"
+          fill={rim}
+          opacity="0.85"
+          transform={`rotate(${deg} 22 22)`}
+        />
+      ))}
+      <circle cx="22" cy="22" r="4" fill={rim} />
+    </svg>
+  );
+}
+
 function CarDiagram({ activeIdx, wheelStatus, onWheelClick, phase }) {
   return (
     <div style={{ position: "relative", width: "100%", maxWidth: 320, aspectRatio: "400/220", margin: "0 auto" }}>
       <svg viewBox="0 0 400 220" style={{ width: "100%", height: "100%", display: "block" }}>
         <defs>
           <linearGradient id="body2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#22262c" />
-            <stop offset="100%" stopColor="#101215" />
+            <stop offset="0%" stopColor="#282c32" />
+            <stop offset="55%" stopColor="#16181c" />
+            <stop offset="100%" stopColor="#0c0d0f" />
+          </linearGradient>
+          <linearGradient id="glass2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2a3844" />
+            <stop offset="100%" stopColor="#0a0c0e" />
           </linearGradient>
         </defs>
-        <rect x="60" y="30" width="280" height="160" rx="34" fill="url(#body2)" stroke="#3a3f47" strokeWidth="2" />
-        <rect x="150" y="46" width="100" height="46" rx="10" fill="#0a0c0e" stroke="#3a3f47" strokeWidth="1.5" />
-        <rect x="76" y="104" width="248" height="12" fill="#ffcc00" opacity="0.9" />
-        <rect x="76" y="104" width="248" height="4" fill="#1c3f7c" />
+
+        {/* shadow */}
+        <ellipse cx="200" cy="112" rx="175" ry="86" fill="#000" opacity="0.35" />
+
+        {/* body silhouette - top-down sports coupe */}
+        <path
+          d="M 22 110
+             C 22 90, 34 74, 55 66
+             C 78 45, 108 30, 145 26
+             C 168 23, 232 23, 255 26
+             C 292 30, 322 45, 345 66
+             C 366 74, 378 90, 378 110
+             C 378 130, 366 146, 345 154
+             C 322 175, 292 190, 255 194
+             C 232 197, 168 197, 145 194
+             C 108 190, 78 175, 55 154
+             C 34 146, 22 130, 22 110 Z"
+          fill="url(#body2)"
+          stroke="#3a3f47"
+          strokeWidth="2"
+        />
+
+        {/* windshield + roof */}
+        <path
+          d="M 152 44 C 158 38, 242 38, 248 44 C 256 56, 256 164, 248 176 C 242 182, 158 182, 152 176 C 144 164, 144 56, 152 44 Z"
+          fill="url(#glass2)"
+          stroke="#3a3f47"
+          strokeWidth="1.5"
+        />
+        {/* windshield divider lines (front/rear glass split) */}
+        <line x1="150" y1="70" x2="250" y2="70" stroke="#0c0d0f" strokeWidth="2" opacity="0.6" />
+        <line x1="150" y1="150" x2="250" y2="150" stroke="#0c0d0f" strokeWidth="2" opacity="0.6" />
+
+        {/* side mirrors */}
+        <rect x="118" y="60" width="14" height="7" rx="3" fill="#1a1d21" stroke="#3a3f47" strokeWidth="1" />
+        <rect x="118" y="153" width="14" height="7" rx="3" fill="#1a1d21" stroke="#3a3f47" strokeWidth="1" />
+
+        {/* racing stripe */}
+        <rect x="30" y="103" width="340" height="14" fill="#ffcc00" opacity="0.92" />
+        <rect x="30" y="103" width="340" height="4" fill="#1c3f7c" />
+        <rect x="30" y="113" width="340" height="4" fill="#1c3f7c" />
+
+        {/* rear spoiler */}
+        <rect x="360" y="70" width="7" height="80" rx="2" fill="#1a1d21" stroke="#3a3f47" strokeWidth="1" />
+
+        {/* fender arch hints at wheel positions */}
+        {WHEELS.map((w) => (
+          <ellipse
+            key={w.id}
+            cx={(parseFloat(w.left) / 100) * 400}
+            cy={(parseFloat(w.top) / 100) * 220}
+            rx="30"
+            ry="30"
+            fill="none"
+            stroke="#000"
+            strokeOpacity="0.35"
+            strokeWidth="10"
+          />
+        ))}
       </svg>
+
       {WHEELS.map((w, i) => {
         const status = wheelStatus[i];
         const isActive = i === activeIdx;
+        const tone = status === "done" ? "done" : isActive ? "active" : "pending";
         return (
           <button
             key={w.id}
@@ -210,22 +301,26 @@ function CarDiagram({ activeIdx, wheelStatus, onWheelClick, phase }) {
               left: w.left,
               top: w.top,
               transform: "translate(-50%,-50%)",
-              width: 50,
-              height: 50,
+              width: 48,
+              height: 48,
+              padding: 0,
               borderRadius: "50%",
-              border: `3px solid ${status === "done" ? "#3ddc84" : isActive ? "#ffcc00" : "#3a3f47"}`,
-              background: "#0d0f12",
-              color: status === "done" ? "#3ddc84" : isActive ? "#ffcc00" : "#5a606a",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              border: "none",
+              background: "transparent",
               cursor: status === "active" && phase === "idle" ? "pointer" : "default",
-              boxShadow: isActive ? "0 0 16px rgba(255,204,0,.7)" : "none",
+              filter: isActive ? "drop-shadow(0 0 8px rgba(255,204,0,.75))" : "none",
               animation: isActive && phase === "idle" ? "pulse 1.1s infinite" : "none",
             }}
             title={w.label}
           >
-            {status === "done" ? <CheckCircle2 size={24} /> : <Wrench size={20} />}
+            <WheelIcon tone={tone} />
+            {status === "done" && (
+              <CheckCircle2
+                size={16}
+                color="#3ddc84"
+                style={{ position: "absolute", top: -2, right: -2, background: "#0d0f12", borderRadius: "50%" }}
+              />
+            )}
           </button>
         );
       })}
@@ -370,9 +465,43 @@ function PitstoppetGame() {
     >
       {screen === "start" && (
         <div style={{ textAlign: "center" }}>
-          <p style={{ color: "#b7bcc4", lineHeight: 1.5, fontSize: 14, margin: "0 0 12px" }}>
-            Klicka på hjulet som lyser, lossa fem muttrar, vänta på nytt däck och
-            dra åt fem till. Träffa gröna zonen — missar kostar tid.
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4,1fr)",
+              gap: 8,
+              marginBottom: 16,
+            }}
+          >
+            {[
+              { icon: <MousePointerClick size={18} />, text: "Klicka på hjulet" },
+              { icon: <Wrench size={18} />, text: "Lossa 5 muttrar" },
+              { icon: <RotateCcw size={18} />, text: "Nytt däck på" },
+              { icon: <CheckCircle2 size={18} />, text: "Dra åt 5 muttrar" },
+            ].map((s, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                <div
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: "50%",
+                    background: "#15171a",
+                    border: "1px solid #2a2f36",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#ffcc00",
+                  }}
+                >
+                  {s.icon}
+                </div>
+                <div style={{ fontSize: 10.5, color: "#8a919c", lineHeight: 1.3 }}>{s.text}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ color: "#b7bcc4", lineHeight: 1.55, fontSize: 13.5, margin: "0 0 12px" }}>
+            Träffa den <span style={{ color: "#3ddc84", fontWeight: 600 }}>gröna zonen</span> i mätaren i rätt
+            ögonblick för varje mutter — missar kostar tid.
           </p>
           <CarDiagram activeIdx={-1} wheelStatus={["pending", "pending", "pending", "pending"]} onWheelClick={() => {}} phase="preview" />
           <button onClick={startGame} style={{ ...btnStyle, marginTop: 16 }}>
@@ -633,6 +762,7 @@ const secondaryBtn = {
 };
 
 export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div style={{ background: "#0b0d10", color: "#e8e9eb", fontFamily: "'Inter', sans-serif", minHeight: "100vh", WebkitFontSmoothing: "antialiased" }}>
       <style>{`
@@ -655,8 +785,12 @@ export default function App() {
         .speedlines { background: repeating-linear-gradient(100deg, rgba(255,204,0,0.045) 0 2px, transparent 2px 48px); }
         @media (max-width: 860px) {
           .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: flex !important; }
           .hero-grid { grid-template-columns: 1fr !important; }
           .hero-mark { order: -1; max-width: 200px !important; margin: 0 auto 12px; }
+        }
+        @media (min-width: 861px) {
+          .mobile-menu-panel { display: none !important; }
         }
       `}</style>
 
@@ -696,10 +830,74 @@ export default function App() {
             ))}
           </nav>
 
-          <a href="#kontakt" className="btn-primary" style={{ ...primaryBtn, fontSize: 14.5, padding: "10px 20px", borderRadius: 8 }}>
-            Boka däckskifte
-          </a>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <a
+              href="#kontakt"
+              className="btn-primary desktop-nav"
+              style={{ ...primaryBtn, fontSize: 14.5, padding: "10px 20px", borderRadius: 8 }}
+            >
+              Boka däckskifte
+            </a>
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              className="mobile-menu-btn"
+              aria-label="Meny"
+              style={{
+                display: "none",
+                background: "none",
+                border: "1px solid #2a2f36",
+                borderRadius: 8,
+                width: 40,
+                height: 40,
+                color: "#e8e9eb",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
+
+        {menuOpen && (
+          <div
+            className="mobile-menu-panel"
+            style={{
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              background: "#0e1013",
+              padding: "8px 24px 16px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "12px 4px",
+                  borderBottom: "1px solid #1c1f24",
+                  fontFamily: "'Titillium Web', sans-serif",
+                  fontWeight: 500,
+                  fontSize: 15,
+                  color: "#c7ccd3",
+                }}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="#kontakt"
+              onClick={() => setMenuOpen(false)}
+              className="btn-primary"
+              style={{ ...primaryBtn, marginTop: 14, textAlign: "center" }}
+            >
+              Boka däckskifte
+            </a>
+          </div>
+        )}
       </header>
 
       {/* HERO */}
