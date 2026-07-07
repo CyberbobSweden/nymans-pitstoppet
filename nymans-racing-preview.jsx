@@ -492,17 +492,14 @@ function PitstoppetGame() {
 }
 
 /* =========================================================
-   RACING UI BITS
+   UI ACCENTS
    ========================================================= */
-function CheckeredDivider() {
+function SectionDivider() {
   return (
     <div
       style={{
-        height: 10,
-        backgroundImage:
-          "repeating-conic-gradient(#e8e9eb 0% 25%, #101215 0% 50%)",
-        backgroundSize: "16px 16px",
-        opacity: 0.9,
+        height: 1,
+        background: "linear-gradient(90deg, transparent, #2a2f36 20%, #2a2f36 80%, transparent)",
       }}
     />
   );
@@ -517,18 +514,17 @@ function StartLights() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div style={{ display: "flex", gap: 6, marginTop: 18 }}>
+    <div style={{ display: "flex", gap: 7, marginTop: 26 }}>
       {[0, 1, 2, 3, 4].map((i) => (
         <div
           key={i}
           style={{
-            width: 14,
-            height: 14,
+            width: 10,
+            height: 10,
             borderRadius: "50%",
-            background: i < lit ? "#ff2b2b" : "#3a1010",
-            boxShadow: i < lit ? "0 0 10px rgba(255,43,43,.9)" : "none",
-            border: "1px solid #1c1f24",
-            transition: "background .15s, box-shadow .15s",
+            background: i < lit ? "#ff2b2b" : "#25181a",
+            boxShadow: i < lit ? "0 0 10px rgba(255,43,43,.8)" : "none",
+            transition: "background .3s ease, box-shadow .3s ease",
           }}
         />
       ))}
@@ -539,33 +535,40 @@ function StartLights() {
 /* =========================================================
    SITE CONTENT
    ========================================================= */
-const NAV_LINKS = ["Hem", "Om oss", "Tjänster", "Tävling", "Våra stationer", "Kontakt"];
+const NAV_LINKS = [
+  { label: "Hem", href: "#hem" },
+  { label: "Om oss", href: "#om-oss" },
+  { label: "Tjänster", href: "#tjanster" },
+  { label: "Tävling", href: "#tavling" },
+  { label: "Våra stationer", href: "#stationer" },
+  { label: "Kontakt", href: "#kontakt" },
+];
 
 const SERVICES = [
-  { n: "01", title: "Däckskifte", text: "Vi hjälper dig få på rätt däck inför kommande säsong.", icon: <Wrench size={20} /> },
-  { n: "02", title: "Däckhotell", text: "Slipp ha däcken liggandes och skräpa hemma – vi sköter förvaringen.", icon: <Warehouse size={20} /> },
-  { n: "03", title: "Hjulinställning", text: "Har bilen börjat dra åt något håll? Dags för en hjulinställning.", icon: <Gauge size={20} /> },
-  { n: "04", title: "Däckbalansering", text: "Vibrerar ratten? Då är det läge att balansera däcken.", icon: <RotateCcw size={20} /> },
-  { n: "05", title: "Företag & lastbilar", text: "Bli företagskund och få hjälp med reparation eller byte av däck.", icon: <Users size={20} /> },
-  { n: "06", title: "Massiva däck", text: "Professionellt byte av massiva däck och truckdäck.", icon: <ShieldCheck size={20} /> },
+  { n: "01", title: "Däckskifte", text: "Vi hjälper dig få på rätt däck inför kommande säsong.", icon: <Wrench size={19} /> },
+  { n: "02", title: "Däckhotell", text: "Slipp ha däcken liggandes och skräpa hemma – vi sköter förvaringen.", icon: <Warehouse size={19} /> },
+  { n: "03", title: "Hjulinställning", text: "Har bilen börjat dra åt något håll? Dags för en hjulinställning.", icon: <Gauge size={19} /> },
+  { n: "04", title: "Däckbalansering", text: "Vibrerar ratten? Då är det läge att balansera däcken.", icon: <RotateCcw size={19} /> },
+  { n: "05", title: "Företag & lastbilar", text: "Bli företagskund och få hjälp med reparation eller byte av däck.", icon: <Users size={19} /> },
+  { n: "06", title: "Massiva däck", text: "Professionellt byte av massiva däck och truckdäck.", icon: <ShieldCheck size={19} /> },
 ];
 
 const STATIONS = [
-  { city: "UMEÅ", address: "Kabelvägen 6", phone: "090-77 24 24", hours: "07:00–16:30" },
-  { city: "NORDMALING", address: "Rödviksvägen 90", phone: "0930-311 25", hours: "07:00–16:00" },
-  { city: "VINDELN", address: "Lidvägen 13", phone: "0933-106 60", hours: "07:00–16:00" },
+  { city: "Umeå", address: "Kabelvägen 6", phone: "090-77 24 24", hours: "07:00–16:30" },
+  { city: "Nordmaling", address: "Rödviksvägen 90", phone: "0930-311 25", hours: "07:00–16:00" },
+  { city: "Vindeln", address: "Lidvägen 13", phone: "0933-106 60", hours: "07:00–16:00" },
 ];
 
 const WHY = [
-  { title: "Rätt utrustning", text: "Modern och säker utrustning för ett jobb utfört med precision.", icon: <ShieldCheck size={20} /> },
-  { title: "Bra kundbemötande", text: "Vi hjälper dig genom hela bilresan, från första frågan till klart byte.", icon: <Users size={20} /> },
-  { title: "Lång erfarenhet", text: "Vi har hållt på länge och vet exakt vad som gör skillnad.", icon: <Award size={20} /> },
-  { title: "Nöjda kunder", text: "Många återkommande kunder som vet att jobbet blir rätt.", icon: <Trophy size={20} /> },
+  { title: "Rätt utrustning", text: "Modern och säker utrustning för ett jobb utfört med precision.", icon: <ShieldCheck size={19} /> },
+  { title: "Bra kundbemötande", text: "Vi hjälper dig genom hela bilresan, från första frågan till klart byte.", icon: <Users size={19} /> },
+  { title: "Lång erfarenhet", text: "Vi har hållt på länge och vet exakt vad som gör skillnad.", icon: <Award size={19} /> },
+  { title: "Nöjda kunder", text: "Många återkommande kunder som vet att jobbet blir rätt.", icon: <Trophy size={19} /> },
 ];
 
 function Section({ id, children, style }) {
   return (
-    <section id={id} style={{ padding: "70px 20px", ...style }}>
+    <section id={id} style={{ padding: "88px 24px", ...style }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>{children}</div>
     </section>
   );
@@ -577,37 +580,84 @@ function Eyebrow({ children }) {
       style={{
         display: "inline-flex",
         alignItems: "center",
-        gap: 8,
+        gap: 9,
         fontFamily: "'Titillium Web', sans-serif",
-        fontWeight: 700,
+        fontWeight: 600,
         fontSize: 13,
-        letterSpacing: 3,
+        letterSpacing: 2.5,
         color: "#ffcc00",
-        marginBottom: 8,
+        marginBottom: 12,
         textTransform: "uppercase",
       }}
     >
-      <span style={{ width: 18, height: 3, background: "#ffcc00", display: "inline-block" }} />
+      <span style={{ width: 16, height: 2, background: "#ffcc00", display: "inline-block", borderRadius: 1 }} />
       {children}
     </div>
   );
 }
 
-const H1 = { fontFamily: "'Titillium Web', sans-serif", fontWeight: 900, fontStyle: "italic" };
-const H2 = { fontFamily: "'Titillium Web', sans-serif", fontWeight: 800, textTransform: "uppercase" };
+const H1 = { fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, letterSpacing: "-0.01em" };
+const H2 = { fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, letterSpacing: "-0.005em" };
+
+const primaryBtn = {
+  fontFamily: "'Titillium Web', sans-serif",
+  fontSize: 16,
+  letterSpacing: 0.3,
+  fontWeight: 600,
+  color: "#0d0f12",
+  background: "linear-gradient(180deg,#ffd93d,#ffbf00)",
+  border: "none",
+  borderRadius: 10,
+  padding: "13px 28px",
+  cursor: "pointer",
+  textDecoration: "none",
+  display: "inline-block",
+  transition: "transform .18s ease, box-shadow .18s ease",
+  boxShadow: "0 1px 2px rgba(0,0,0,.2)",
+};
+
+const secondaryBtn = {
+  fontFamily: "'Titillium Web', sans-serif",
+  fontSize: 16,
+  letterSpacing: 0.3,
+  fontWeight: 600,
+  color: "#e8e9eb",
+  background: "rgba(255,255,255,0.03)",
+  border: "1px solid #2a2f36",
+  borderRadius: 10,
+  padding: "12px 27px",
+  cursor: "pointer",
+  textDecoration: "none",
+  display: "inline-block",
+  transition: "transform .18s ease, border-color .18s ease, background .18s ease",
+};
 
 export default function App() {
   return (
-    <div style={{ background: "#0b0d10", color: "#e8e9eb", fontFamily: "'Inter', sans-serif", minHeight: "100vh" }}>
+    <div style={{ background: "#0b0d10", color: "#e8e9eb", fontFamily: "'Inter', sans-serif", minHeight: "100vh", WebkitFontSmoothing: "antialiased" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap');
         @keyframes pulse { 0%,100%{ box-shadow:0 0 10px rgba(255,204,0,.6);} 50%{ box-shadow:0 0 22px rgba(255,204,0,1);} }
-        a { color: inherit; }
-        .navlink { position:relative; cursor:pointer; font-family:'Titillium Web',sans-serif; font-weight:600; text-transform:uppercase; font-size:14px; letter-spacing:.5px; }
-        .navlink:hover { color:#ffcc00; }
-        .card:hover { transform: translateY(-3px); border-color:#3a3f47 !important; }
-        .card { transition: transform .15s ease, border-color .15s ease; }
-        .speedlines { background: repeating-linear-gradient(100deg, rgba(255,204,0,0.06) 0 2px, transparent 2px 40px); }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        a { color: inherit; text-decoration: none; }
+        p { margin: 0; }
+        section, #hem { scroll-margin-top: 72px; }
+        .navlink { position:relative; cursor:pointer; font-family:'Titillium Web',sans-serif; font-weight:500; font-size:14.5px; letter-spacing:.2px; color:#c7ccd3; padding-bottom:2px; transition: color .2s ease; }
+        .navlink::after { content:""; position:absolute; left:0; right:100%; bottom:-3px; height:2px; background:#ffcc00; transition: right .2s ease; }
+        .navlink:hover { color:#fff; }
+        .navlink:hover::after { right:0; }
+        .card { transition: transform .22s cubic-bezier(.2,.7,.3,1), border-color .22s ease, background .22s ease; }
+        .card:hover { transform: translateY(-4px); border-color:#3a3f47 !important; background: #17191d !important; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,191,0,.25); }
+        .btn-secondary:hover { transform: translateY(-1px); border-color:#4a5058; background: rgba(255,255,255,0.06); }
+        .speedlines { background: repeating-linear-gradient(100deg, rgba(255,204,0,0.045) 0 2px, transparent 2px 48px); }
+        @media (max-width: 860px) {
+          .desktop-nav { display: none !important; }
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-mark { order: -1; max-width: 200px !important; margin: 0 auto 12px; }
+        }
       `}</style>
 
       {/* preview ribbon */}
@@ -617,16 +667,14 @@ export default function App() {
           color: "#0d0f12",
           textAlign: "center",
           fontFamily: "'Titillium Web', sans-serif",
-          fontWeight: 700,
-          letterSpacing: 1.5,
-          fontSize: 13,
-          padding: "6px 10px",
-          textTransform: "uppercase",
+          fontWeight: 600,
+          letterSpacing: 0.6,
+          fontSize: 12.5,
+          padding: "7px 10px",
         }}
       >
         Förhandsvisning — det här är ett designförslag, inte den live-sidan
       </div>
-      <CheckeredDivider />
 
       {/* NAVBAR */}
       <header
@@ -634,160 +682,123 @@ export default function App() {
           position: "sticky",
           top: 0,
           zIndex: 50,
-          background: "rgba(11,13,16,0.94)",
-          backdropFilter: "blur(6px)",
-          borderBottom: "1px solid #1c1f24",
+          background: "rgba(11,13,16,0.85)",
+          backdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        <div style={{ maxWidth: 1080, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <img src={logoLockup} alt="Nymans Däck Team" style={{ height: 34, width: "auto", filter: "drop-shadow(0 0 6px rgba(0,0,0,.4))" }} />
+        <div style={{ maxWidth: 1080, margin: "0 auto", padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <img src={logoLockup} alt="Nymans Däck Team" style={{ height: 30, width: "auto" }} />
 
-          <nav style={{ display: "flex", gap: 26 }} className="desktop-nav">
+          <nav style={{ display: "flex", gap: 30 }} className="desktop-nav">
             {NAV_LINKS.map((l) => (
-              <span key={l} className="navlink">{l}</span>
+              <a key={l.label} href={l.href} className="navlink">{l.label}</a>
             ))}
           </nav>
 
-          <button
-            style={{
-              fontFamily: "'Titillium Web', sans-serif",
-              fontSize: 15,
-              letterSpacing: 1,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              color: "#0d0f12",
-              background: "linear-gradient(180deg,#ffd93d,#ffbf00)",
-              border: "none",
-              borderRadius: 6,
-              padding: "9px 18px",
-              cursor: "pointer",
-            }}
-          >
+          <a href="#kontakt" className="btn-primary" style={{ ...primaryBtn, fontSize: 14.5, padding: "10px 20px", borderRadius: 8 }}>
             Boka däckskifte
-          </button>
+          </a>
         </div>
       </header>
 
       {/* HERO */}
-      <div className="speedlines">
-        <Section style={{ paddingTop: 64, paddingBottom: 50 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 40, alignItems: "center" }}>
+      <div className="speedlines" id="hem">
+        <Section style={{ paddingTop: 76, paddingBottom: 56 }}>
+          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 48, alignItems: "center" }}>
             <div>
               <Eyebrow>Umeå · Nordmaling · Vindeln</Eyebrow>
-              <h1 style={{ ...H1, fontSize: 56, lineHeight: 1.0, margin: "0 0 14px", transform: "skewX(-2deg)" }}>
+              <h1 style={{ ...H1, fontSize: 52, lineHeight: 1.08, margin: "0 0 18px" }}>
                 Ditt depåstopp för <span style={{ color: "#ffcc00" }}>däckservice</span> &amp; däckbyte
               </h1>
-              <p style={{ color: "#b7bcc4", fontSize: 17, lineHeight: 1.6, maxWidth: 480, fontStyle: "normal" }}>
+              <p style={{ color: "#a9afb8", fontSize: 17, lineHeight: 1.65, maxWidth: 460 }}>
                 Vi kan däck och däckbyte. Hos oss får du professionell service och
                 kvalitetsdäck, utförda av utbildade och erfarna däckspecialister —
                 på tre verkstäder i Umeå, Vindeln och Nordmaling.
               </p>
-              <div style={{ display: "flex", gap: 12, marginTop: 22, flexWrap: "wrap", alignItems: "center" }}>
-                <button
-                  style={{
-                    fontFamily: "'Titillium Web', sans-serif",
-                    fontSize: 17,
-                    letterSpacing: 1,
-                    fontWeight: 900,
-                    textTransform: "uppercase",
-                    color: "#0d0f12",
-                    background: "linear-gradient(180deg,#ffd93d,#ffbf00)",
-                    border: "none",
-                    borderRadius: 8,
-                    padding: "13px 26px",
-                    cursor: "pointer",
-                  }}
-                >
+              <div style={{ display: "flex", gap: 14, marginTop: 28, flexWrap: "wrap", alignItems: "center" }}>
+                <a href="#kontakt" className="btn-primary" style={primaryBtn}>
                   Boka tid
-                </button>
-                <button
-                  style={{
-                    fontFamily: "'Titillium Web', sans-serif",
-                    fontSize: 17,
-                    letterSpacing: 1,
-                    fontWeight: 900,
-                    textTransform: "uppercase",
-                    color: "#e8e9eb",
-                    background: "transparent",
-                    border: "2px solid #2a2f36",
-                    borderRadius: 8,
-                    padding: "11px 26px",
-                    cursor: "pointer",
-                  }}
-                >
+                </a>
+                <a href="#tavling" className="btn-secondary" style={secondaryBtn}>
                   Spela Pitstoppet 🏁
-                </button>
+                </a>
               </div>
               <StartLights />
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div className="hero-mark" style={{ display: "flex", justifyContent: "center" }}>
               <img
                 src={logoMark}
                 alt="N1 Nymans"
-                style={{ width: "72%", maxWidth: 280, filter: "drop-shadow(0 20px 34px rgba(0,0,0,.6))" }}
+                style={{ width: "68%", maxWidth: 260, filter: "drop-shadow(0 24px 40px rgba(0,0,0,.55))" }}
               />
             </div>
           </div>
         </Section>
       </div>
-      <CheckeredDivider />
+
+      <SectionDivider />
 
       {/* SERVICES */}
-      <Section style={{ background: "#101215", borderBottom: "1px solid #1c1f24" }} id="tjanster">
+      <Section style={{ background: "#101215" }} id="tjanster">
         <Eyebrow>Mer än bara däckskifte</Eyebrow>
-        <h2 style={{ ...H2, fontSize: 32, margin: "0 0 26px" }}>Våra tjänster</h2>
+        <h2 style={{ ...H2, fontSize: 30, margin: "0 0 32px" }}>Våra tjänster</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 16 }}>
           {SERVICES.map((s) => (
-            <div key={s.title} className="card" style={{ position: "relative", background: "#15171a", border: "1px solid #22262c", borderRadius: 12, padding: "20px 20px 20px 20px" }}>
+            <div key={s.title} className="card" style={{ position: "relative", background: "#15171a", border: "1px solid #22262c", borderRadius: 14, padding: 22 }}>
               <div
                 style={{
                   position: "absolute",
-                  top: 14,
-                  right: 14,
-                  fontFamily: "'Titillium Web', monospace",
-                  fontWeight: 900,
-                  fontSize: 22,
-                  color: "#22262c",
+                  top: 18,
+                  right: 18,
+                  fontFamily: "'Titillium Web', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  letterSpacing: 1,
+                  color: "#3a3f47",
                 }}
               >
                 {s.n}
               </div>
-              <div style={{ color: "#ffcc00", marginBottom: 10 }}>{s.icon}</div>
-              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, fontSize: 19, marginBottom: 4, textTransform: "uppercase" }}>{s.title}</div>
-              <div style={{ color: "#8a919c", fontSize: 14, lineHeight: 1.5 }}>{s.text}</div>
+              <div style={{ color: "#ffcc00", marginBottom: 14 }}>{s.icon}</div>
+              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 600, fontSize: 17, marginBottom: 6 }}>{s.title}</div>
+              <div style={{ color: "#8a919c", fontSize: 14, lineHeight: 1.6 }}>{s.text}</div>
             </div>
           ))}
         </div>
       </Section>
 
       {/* COMPETITION / GAME */}
-      <Section id="tavling" style={{ background: "radial-gradient(800px 400px at 50% 0%, #14181f 0%, #0b0d10 60%)" }}>
-        <div style={{ textAlign: "center", marginBottom: 26 }}>
+      <Section id="tavling" style={{ background: "radial-gradient(800px 420px at 50% 0%, #14181f 0%, #0b0d10 65%)" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
           <Eyebrow>Sommartävling</Eyebrow>
-          <h2 style={{ ...H1, fontSize: 38, margin: "0 0 10px", transform: "skewX(-2deg)" }}>
+          <h2 style={{ ...H1, fontSize: 34, margin: "0 0 14px", lineHeight: 1.2 }}>
             Klarar du fyra hjul snabbare än våra egna mekaniker?
           </h2>
-          <p style={{ color: "#b7bcc4", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
-            Spela <strong style={{ color: "#ffcc00" }}>Pitstoppet</strong> nedan, klättra på topplistan och
-            var med och tävla om <em>[fyller i pris här, t.ex. ett gratis säsongsskifte eller
-            presentkort]</em> — vi återkommer med exakta tävlingsvillkor innan lansering.
+          <p style={{ color: "#a9afb8", maxWidth: 540, margin: "0 auto", lineHeight: 1.65 }}>
+            Spela <strong style={{ color: "#ffcc00", fontWeight: 600 }}>Pitstoppet</strong> nedan, klättra på
+            topplistan och var med och tävla om{" "}
+            <span style={{ fontStyle: "italic", color: "#c7ccd3" }}>
+              [fyller i pris här, t.ex. ett gratis säsongsskifte eller presentkort]
+            </span>{" "}
+            — vi återkommer med exakta tävlingsvillkor innan lansering.
           </p>
         </div>
         <PitstoppetGame />
       </Section>
 
-      <CheckeredDivider />
+      <SectionDivider />
 
       {/* WHY */}
-      <Section style={{ background: "#101215", borderBottom: "1px solid #1c1f24" }}>
+      <Section id="om-oss" style={{ background: "#101215" }}>
         <Eyebrow>Varför Nymans?</Eyebrow>
-        <h2 style={{ ...H2, fontSize: 32, margin: "0 0 26px" }}>Lång erfarenhet, nöjda kunder</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16 }}>
+        <h2 style={{ ...H2, fontSize: 30, margin: "0 0 32px" }}>Lång erfarenhet, nöjda kunder</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 28 }}>
           {WHY.map((w) => (
-            <div key={w.title} style={{ padding: 4 }}>
-              <div style={{ color: "#ffcc00", marginBottom: 8 }}>{w.icon}</div>
-              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, fontSize: 17, marginBottom: 4, textTransform: "uppercase" }}>{w.title}</div>
-              <div style={{ color: "#8a919c", fontSize: 14, lineHeight: 1.5 }}>{w.text}</div>
+            <div key={w.title}>
+              <div style={{ color: "#ffcc00", marginBottom: 12 }}>{w.icon}</div>
+              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 600, fontSize: 16, marginBottom: 6 }}>{w.title}</div>
+              <div style={{ color: "#8a919c", fontSize: 14, lineHeight: 1.6 }}>{w.text}</div>
             </div>
           ))}
         </div>
@@ -796,53 +807,53 @@ export default function App() {
       {/* STATIONS */}
       <Section id="stationer">
         <Eyebrow>Våra stationer</Eyebrow>
-        <h2 style={{ ...H2, fontSize: 32, margin: "0 0 26px" }}>Tre verkstäder, samma kvalitet</h2>
+        <h2 style={{ ...H2, fontSize: 30, margin: "0 0 32px" }}>Tre verkstäder, samma kvalitet</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 16 }}>
           {STATIONS.map((s) => (
-            <div key={s.city} className="card" style={{ background: "#15171a", border: "1px solid #22262c", borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 900, fontSize: 22, color: "#ffcc00", marginBottom: 10 }}>{s.city}</div>
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-start", marginBottom: 6, color: "#c7ccd3", fontSize: 14 }}>
-                <MapPin size={16} style={{ marginTop: 2, flexShrink: 0 }} /> {s.address}
+            <div key={s.city} className="card" style={{ background: "#15171a", border: "1px solid #22262c", borderRadius: 14, padding: 22 }}>
+              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, fontSize: 19, color: "#ffcc00", marginBottom: 14 }}>{s.city}</div>
+              <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 8, color: "#c7ccd3", fontSize: 14 }}>
+                <MapPin size={15} style={{ marginTop: 2, flexShrink: 0, color: "#6b7078" }} /> {s.address}
               </div>
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-start", marginBottom: 6, color: "#c7ccd3", fontSize: 14 }}>
-                <Phone size={16} style={{ marginTop: 2, flexShrink: 0 }} /> {s.phone}
+              <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 8, color: "#c7ccd3", fontSize: 14 }}>
+                <Phone size={15} style={{ marginTop: 2, flexShrink: 0, color: "#6b7078" }} /> {s.phone}
               </div>
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-start", color: "#c7ccd3", fontSize: 14 }}>
-                <Clock size={16} style={{ marginTop: 2, flexShrink: 0 }} /> Mån–Fre {s.hours}
+              <div style={{ display: "flex", gap: 9, alignItems: "flex-start", color: "#c7ccd3", fontSize: 14 }}>
+                <Clock size={15} style={{ marginTop: 2, flexShrink: 0, color: "#6b7078" }} /> Mån–Fre {s.hours}
               </div>
             </div>
           ))}
         </div>
       </Section>
 
-      <CheckeredDivider />
+      <SectionDivider />
 
       {/* FOOTER */}
-      <footer style={{ padding: "36px 20px", background: "#0e1013" }} id="kontakt">
+      <footer style={{ padding: "48px 24px 36px", background: "#0e1013" }} id="kontakt">
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <img src={logoLockup} alt="Nymans Däck Team" style={{ height: 30, marginBottom: 20 }} />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 24 }}>
+          <img src={logoLockup} alt="Nymans Däck Team" style={{ height: 26, marginBottom: 28, opacity: 0.9 }} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 28 }}>
             <div>
-              <div style={{ color: "#8a919c", fontSize: 13, lineHeight: 1.6 }}>Ditt depåstopp för däckservice &amp; däckskifte.</div>
+              <div style={{ color: "#8a919c", fontSize: 13.5, lineHeight: 1.7 }}>Ditt depåstopp för däckservice &amp; däckskifte.</div>
             </div>
             <div>
-              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 8, color: "#ffcc00", textTransform: "uppercase" }}>Kontakt</div>
+              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 600, fontSize: 14, marginBottom: 12, color: "#ffcc00" }}>Kontakt</div>
               {STATIONS.map((s) => (
-                <div key={s.city} style={{ color: "#8a919c", fontSize: 13, marginBottom: 4 }}>{s.city}: {s.phone}</div>
+                <div key={s.city} style={{ color: "#8a919c", fontSize: 13.5, marginBottom: 6 }}>{s.city}: {s.phone}</div>
               ))}
             </div>
             <div>
-              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 8, color: "#ffcc00", textTransform: "uppercase" }}>Tjänster</div>
+              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 600, fontSize: 14, marginBottom: 12, color: "#ffcc00" }}>Tjänster</div>
               {["Däckservice", "Däckhotell", "Hjulinställning", "Företag", "Delbetala"].map((t) => (
-                <div key={t} style={{ color: "#8a919c", fontSize: 13, marginBottom: 4 }}>{t}</div>
+                <div key={t} style={{ color: "#8a919c", fontSize: 13.5, marginBottom: 6 }}>{t}</div>
               ))}
             </div>
             <div>
-              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 8, color: "#ffcc00", textTransform: "uppercase" }}>Öppettider</div>
-              <div style={{ color: "#8a919c", fontSize: 13 }}>Måndag–Fredag, telefontid 07:00–16:00</div>
+              <div style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 600, fontSize: 14, marginBottom: 12, color: "#ffcc00" }}>Öppettider</div>
+              <div style={{ color: "#8a919c", fontSize: 13.5, lineHeight: 1.6 }}>Måndag–Fredag, telefontid 07:00–16:00</div>
             </div>
           </div>
-          <div style={{ textAlign: "center", color: "#5a606a", fontSize: 12, marginTop: 26 }}>
+          <div style={{ textAlign: "center", color: "#565b62", fontSize: 12, marginTop: 36 }}>
             Copyright © 2026 Nymans Däck — designförslag/mockup, ej publicerad sida
           </div>
         </div>
