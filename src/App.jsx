@@ -539,7 +539,14 @@ function StartLights() {
 /* =========================================================
    SITE CONTENT
    ========================================================= */
-const NAV_LINKS = ["Hem", "Om oss", "Tjänster", "Tävling", "Våra stationer", "Kontakt"];
+const NAV_LINKS = [
+  { label: "Hem", href: "#hem" },
+  { label: "Om oss", href: "#om-oss" },
+  { label: "Tjänster", href: "#tjanster" },
+  { label: "Tävling", href: "#tavling" },
+  { label: "Våra stationer", href: "#stationer" },
+  { label: "Kontakt", href: "#kontakt" },
+];
 
 const SERVICES = [
   { n: "01", title: "Däckskifte", text: "Vi hjälper dig få på rätt däck inför kommande säsong.", icon: <Wrench size={20} /> },
@@ -602,9 +609,12 @@ export default function App() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Inter:wght@400;500;600;700&display=swap');
         @keyframes pulse { 0%,100%{ box-shadow:0 0 10px rgba(255,204,0,.6);} 50%{ box-shadow:0 0 22px rgba(255,204,0,1);} }
-        a { color: inherit; }
+        html { scroll-behavior: smooth; }
+        a { color: inherit; text-decoration: none; }
         .navlink { position:relative; cursor:pointer; font-family:'Titillium Web',sans-serif; font-weight:600; text-transform:uppercase; font-size:14px; letter-spacing:.5px; }
         .navlink:hover { color:#ffcc00; }
+        section { scroll-margin-top: 64px; }
+        #hem { scroll-margin-top: 64px; }
         .card:hover { transform: translateY(-3px); border-color:#3a3f47 !important; }
         .card { transition: transform .15s ease, border-color .15s ease; }
         .speedlines { background: repeating-linear-gradient(100deg, rgba(255,204,0,0.06) 0 2px, transparent 2px 40px); }
@@ -644,11 +654,12 @@ export default function App() {
 
           <nav style={{ display: "flex", gap: 26 }} className="desktop-nav">
             {NAV_LINKS.map((l) => (
-              <span key={l} className="navlink">{l}</span>
+              <a key={l.label} href={l.href} className="navlink">{l.label}</a>
             ))}
           </nav>
 
-          <button
+          <a
+            href="#kontakt"
             style={{
               fontFamily: "'Titillium Web', sans-serif",
               fontSize: 15,
@@ -661,15 +672,17 @@ export default function App() {
               borderRadius: 6,
               padding: "9px 18px",
               cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
             }}
           >
             Boka däckskifte
-          </button>
+          </a>
         </div>
       </header>
 
       {/* HERO */}
-      <div className="speedlines">
+      <div className="speedlines" id="hem">
         <Section style={{ paddingTop: 64, paddingBottom: 50 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 40, alignItems: "center" }}>
             <div>
@@ -683,7 +696,8 @@ export default function App() {
                 på tre verkstäder i Umeå, Vindeln och Nordmaling.
               </p>
               <div style={{ display: "flex", gap: 12, marginTop: 22, flexWrap: "wrap", alignItems: "center" }}>
-                <button
+                <a
+                  href="#kontakt"
                   style={{
                     fontFamily: "'Titillium Web', sans-serif",
                     fontSize: 17,
@@ -696,11 +710,14 @@ export default function App() {
                     borderRadius: 8,
                     padding: "13px 26px",
                     cursor: "pointer",
+                    textDecoration: "none",
+                    display: "inline-block",
                   }}
                 >
                   Boka tid
-                </button>
-                <button
+                </a>
+                <a
+                  href="#tavling"
                   style={{
                     fontFamily: "'Titillium Web', sans-serif",
                     fontSize: 17,
@@ -713,10 +730,12 @@ export default function App() {
                     borderRadius: 8,
                     padding: "11px 26px",
                     cursor: "pointer",
+                    textDecoration: "none",
+                    display: "inline-block",
                   }}
                 >
                   Spela Pitstoppet 🏁
-                </button>
+                </a>
               </div>
               <StartLights />
             </div>
@@ -779,7 +798,7 @@ export default function App() {
       <CheckeredDivider />
 
       {/* WHY */}
-      <Section style={{ background: "#101215", borderBottom: "1px solid #1c1f24" }}>
+      <Section id="om-oss" style={{ background: "#101215", borderBottom: "1px solid #1c1f24" }}>
         <Eyebrow>Varför Nymans?</Eyebrow>
         <h2 style={{ ...H2, fontSize: 32, margin: "0 0 26px" }}>Lång erfarenhet, nöjda kunder</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16 }}>
