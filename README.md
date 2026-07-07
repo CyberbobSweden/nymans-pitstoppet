@@ -46,11 +46,24 @@ Efter några minuter är sidan live på:
 ## Struktur
 
 - `src/App.jsx` – hela sidan (navbar, hero, tjänster, tävling/spel, stationer, footer)
-- `src/assets/` – de riktiga Nymans/Däck Team-loggorna
+- `src/assets/` – de riktiga Nymans/Däck Team-loggorna, bilder och mekaniker-sprite
 - `.github/workflows/deploy.yml` – automatisk publicering till GitHub Pages
+
+## Installerbar app (PWA)
+
+Sajten är en Progressive Web App. Efter att den är live på GitHub Pages:
+- **Android/Chrome/Edge (desktop & mobil):** en "Installera app"-ikon dyker upp i adressfältet, eller Meny → "Installera Pitstoppet"
+- **iOS Safari:** Dela-knappen → "Lägg till på hemskärmen"
+
+Den installerade appen får ett eget ikon (genererat från N1-loggan), öppnas i eget fönster utan webbläsarens adressfält, och cachar sidan så den även laddar offline efter första besöket.
+
+Om du byter repo-namn: uppdatera `base` i `vite.config.js` OCH `start_url`/`scope` i PWA-manifestet i samma fil så de matchar.
 
 ## Topplistan
 
-Sparas i webbläsarens `localStorage` just nu, alltså lokalt per besökare/
-enhet. Vill ni ha en gemensam topplista för alla besökare på riktiga sajten
-behövs en liten backend (t.ex. Supabase) istället.
+Sparas i webbläsarens `localStorage` (nyckel `pitstoppet_leaderboard`) — alltså **lokalt per enhet/webbläsare**, inte delat mellan olika besökare. Det betyder:
+- Bra för en kiosk-skärm i butiken där samma enhet används
+- Installeras appen på flera olika telefoner får varje telefon sin egen topplista
+- Rensar man webbläsardata/appdata försvinner listan
+
+Vill ni ha en topplista som är gemensam för *alla* som spelar (olika enheter, hemsidan) behövs en liten backend eller en tjänst som Supabase/Firebase istället för `localStorage`.
