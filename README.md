@@ -1,53 +1,69 @@
-# Trollut Grejar
+# Nymans Däck – Pitstoppet (designförslag)
 
-Enkel, statisk hemsida för **Trollut Grejar** — handgjorda smycken (mestadels polymerlera) från Älvsbyn. Sidan är byggd för att driva trafik till [Instagram](https://www.instagram.com/trollut_grejar) och visa var försäljning sker via en marknadskalender, utöver postorder.
+En racing-inspirerad förhandsvisning av en ny nymansdack.se, med
+tävlingsspelet **Pitstoppet** inbyggt. Använder de riktiga Nymans/Däck Team-
+loggorna och Titillium Web (en tjock, lätt kursiv racing-typsnitt) som
+rubriktypsnitt.
 
-🔗 Live-demo: publicera via GitHub Pages (se nedan) för en länk.
+⚠️ Det här är ett designförslag/mockup, inte den riktiga, publicerade sajten.
+
+## Köra lokalt
+
+```bash
+npm install
+npm run dev
+```
+
+## Publicera på GitHub Pages
+
+**Steg 1 — skapa repot**
+Skapa ett tomt repo på github.com som heter t.ex. `nymans-pitstoppet` under
+ditt konto (CyberbobSweden).
+
+**Steg 2 — kontrollera `base` i `vite.config.js`**
+Filen har redan `base: "/nymans-pitstoppet/"`. Om du döper repot till något
+annat måste du ändra den raden till `"/DITT-REPO-NAMN/"`.
+
+**Steg 3 — pusha koden**
+```bash
+git init
+git add -A
+git commit -m "Pitstoppet: racing-mockup för Nymans Däck"
+git branch -M main
+git remote add origin https://github.com/CyberbobSweden/nymans-pitstoppet.git
+git push -u origin main
+```
+
+**Steg 4 — slå på GitHub Pages**
+I repot på GitHub: Settings → Pages → under "Build and deployment", välj
+**Source: GitHub Actions**. Workflow-filen (`.github/workflows/deploy.yml`)
+finns redan med och bygger + publicerar sidan automatiskt varje gång du
+pushar till `main`.
+
+Efter några minuter är sidan live på:
+`https://CyberbobSweden.github.io/nymans-pitstoppet/`
 
 ## Struktur
 
-```
-trollut_grejar/
-├── index.html      # all markup och innehåll
-├── style.css        # designsystem (färger, typografi, layout)
-├── script.js         # marknadskalender-logik + data
-└── images/            # produktbilder och Instagram-QR
-```
+- `src/App.jsx` – hela sidan (navbar, hero, tjänster, tävling/spel, stationer, footer)
+- `src/assets/` – de riktiga Nymans/Däck Team-loggorna, bilder och mekaniker-sprite
+- `.github/workflows/deploy.yml` – automatisk publicering till GitHub Pages
 
-Ren HTML/CSS/JS utan byggsteg eller beroenden — funkar direkt i vilken webbserver som helst.
+## Installerbar app (PWA)
 
-## Redigera marknadskalendern
+Sajten är en Progressive Web App. Efter att den är live på GitHub Pages:
+- **Android/Chrome/Edge (desktop & mobil):** en "Installera app"-ikon dyker upp i adressfältet, eller Meny → "Installera Pitstoppet"
+- **iOS Safari:** Dela-knappen → "Lägg till på hemskärmen"
 
-Öppna `script.js` och redigera listan `MARKET_DATES` högst upp i filen:
+Den installerade appen får ett eget ikon (genererat från N1-loggan), öppnas i eget fönster utan webbläsarens adressfält, och cachar sidan så den även laddar offline efter första besöket.
 
-```js
-const MARKET_DATES = [
-  {
-    date: "2026-08-15",
-    title: "Hantverksmarknad",
-    place: "Framnäs friluftsområde, Älvsbyn"
-  },
-  // ... lägg till fler här
-];
-```
+Om du byter repo-namn: uppdatera `base` i `vite.config.js` OCH `start_url`/`scope` i PWA-manifestet i samma fil så de matchar.
 
-- Datum skrivs som `"ÅÅÅÅ-MM-DD"`.
-- Marknader vars datum redan passerat visas inte längre — inget behöver städas bort manuellt.
-- Är listan tom (eller alla datum har passerat) visas ett vänligt tomt-läge istället.
+## Topplistan
 
-> **Obs:** exempeldatumen som ligger i filen från start är platshållare. Byt ut dem mot era riktiga marknader innan sidan publiceras skarpt.
+Sparas i webbläsarens `localStorage` (nyckel `pitstoppet_leaderboard`) — alltså **lokalt per enhet/webbläsare**, inte delat mellan olika besökare. Det betyder:
+- Bra för en kiosk-skärm i butiken där samma enhet används
+- Installeras appen på flera olika telefoner får varje telefon sin egen topplista
+- Rensar man webbläsardata/appdata försvinner listan
 
-## Byta ut bilder
-
-Lägg nya produktbilder i `images/` och peka på dem i `index.html` (i `<section id="gallery">`). Behåll gärna kvadratiska eller liknande beskurna bilder för att gallerirutnätet ska se enhetligt ut.
-
-## Publicera med GitHub Pages
-
-1. Gå till repots **Settings → Pages**.
-2. Under "Build and deployment", välj **Deploy from a branch**.
-3. Välj branch `main` och mappen `/ (root)`.
-4. Spara — sidan publiceras på `https://cyberbobsweden.github.io/trollut_grejar/` inom någon minut.
-
-## Kontakt
-
-Beställningar och frågor tas just nu emot via DM på Instagram: [@trollut_grejar](https://www.instagram.com/trollut_grejar).
+Vill ni ha en topplista som är gemensam för *alla* som spelar (olika enheter, hemsidan) behövs en liten backend eller en tjänst som Supabase/Firebase istället för `localStorage`.
